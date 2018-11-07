@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/mainTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+
+        <h:form id="form">
+            
+            <h2>Клиенты</h2>
+
+            <p:messages id="messages" 
+                        showDetail="true"
+                        closable="true"
+                        style="margin-bottom: 1em;"/>
+
+            <p:toolbar>
+                <f:facet name="left">
+                    <p:commandButton type="button" value="Создать" icon="fa fa-plus" />
+                </f:facet>
+
+                <f:facet name="right">
+
+                    <p:menuButton value="Действия">
+                        <p:menuitem value="Save" />
+                        <p:menuitem value="Update"/>
+                        <p:menuitem value="Delete"/>
+                        <p:menuitem value="Homepage"/>
+                    </p:menuButton>
+
+                </f:facet>
+
+            </p:toolbar>                    
+
+            <p:dataTable var="client" 
+                         value="#{clientListController.clientList}"
+                         selection="#{clientListController.selectedClientList}" 
+                         rowKey="#{client.id}" 
+                         style="margin-bottom:0"
+                         paginator="true"
+                         rows="15"
+                         multiViewState="true">
+
+                <p:column selectionMode="multiple" style="text-align:center" width="35"/>
+
+                <p:column headerText="Код">
+                    <h:outputText value="#{client.code}" />
+                </p:column>
+
+                <p:column headerText="Название">
+                    <h:outputText value="#{client.name}" />
+                </p:column>
+
+                <p:column headerText="Статус">
+                    <h:outputText value="#{client.status}" />
+                </p:column>
+
+                <p:column headerText="Создан">
+                    <h:outputText value="#{client.createTime}">
+                        <f:convertDateTime pattern="dd.MM.yyyy" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column style="text-align: center" width="60">
+                    <p:button outcome="/client/view" 
+                              icon="fa fa-search" 
+                              title="Показать всю информацию о клиенте">
+
+                        <f:param name="id" value="#{client.id}"/>
+
+                    </p:button>
+                </p:column>
+
+            </p:dataTable>
+
+        </h:form>                    
+
+    </ui:define>
+
+</ui:composition>

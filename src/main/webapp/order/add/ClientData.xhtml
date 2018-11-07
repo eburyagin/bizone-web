@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+
+        <h:panelGroup id="clientDataPage">
+
+            <h:panelGroup rendered="#{empty addOrderController.client}">
+
+                <h:form id="findClientForm">
+
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-2">
+                            <p:outputLabel for="client" value="Поиск клиента по коду или названию"/>
+                        </div>
+                        <div class="ui-g-12 ui-md-10">
+                            <p:autoComplete id="client" 
+                                            value="#{addOrderController.client}" 
+                                            completeMethod="#{addOrderController.completeClient}"
+                                            converter="clientConverter"
+                                            var="client" 
+                                            itemLabel="#{client.name}"
+                                            itemValue="#{client}"
+                                            required="true"
+                                            forceSelection="true">
+
+                                <p:ajax event="itemSelect" listener="#{addOrderController.onClientSelect}" update="msgs clientDataPage" />
+
+                            </p:autoComplete>
+                        </div>
+                    </div>
+
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12">
+                            <p:commandButton value="Новый" actionListener="#{addOrderController.newClient()}"
+                                             update="msgs clientDataPage"
+                                             icon="fa fa-plus"
+                                             partialSubmit="true"
+                                             process="@this"/>
+                        </div>
+                    </div>
+
+                </h:form>
+
+            </h:panelGroup>
+
+            <h:panelGroup rendered="#{not empty addOrderController.client}">
+
+                <h:form id="clientDataForm">
+
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-2">
+                            <p:outputLabel for="code" value="Код клиента"/>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <p:inputText id="code" value="#{addOrderController.client.code}"
+                                         required="true"/>
+                        </div>
+                        <div class="ui-g-12 ui-md-6">
+                            <p:commandButton value="Другой клиент" actionListener="#{addOrderController.nullClient()}"
+                                             update="msgs clientDataPage"
+                                             partialSubmit="true"
+                                             process="@this">
+                                <p:resetInput target="clientDataForm" />
+                            </p:commandButton>
+                        </div>
+                    </div>
+
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-2">
+                            <p:outputLabel for="name" value="Название"/>
+                        </div>
+                        <div class="ui-g-12 ui-md-10">
+                            <p:inputText id="name" value="#{addOrderController.client.name}"
+                                         required="true"/>
+                        </div>
+                    </div>
+
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-2">
+                            <p:outputLabel for="status" value="Статус"/>
+                        </div>
+                        <div class="ui-g-12 ui-md-10">
+                            <p:selectOneMenu id="status" value="#{addOrderController.client.status}"
+                                             style="width:225px">
+                                <f:selectItem itemLabel="Работает" itemValue="Работает" />
+                                <f:selectItem itemLabel="Потенциальный" itemValue="Потенциальный" />
+                                <f:selectItem itemLabel="Закрыт" itemValue="Закрыт" />
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-2">
+                            <p:outputLabel for="note" value="Примечание"/>
+                        </div>
+                        <div class="ui-g-12 ui-md-10">
+                            <p:textEditor id="note" value="#{addOrderController.client.note}"
+                                          height="300"
+                                          style="background-color: #ffffff;"/>
+                        </div>
+                    </div>
+
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-2"/>
+                        <div class="ui-g-12 ui-md-10">
+                            <p:commandButton value="Сохранить и продолжить" actionListener="#{addOrderController.nullClient()}"
+                                             update="msgs pages"
+                                             icon="fa fa-arrow"/>
+                        </div>
+                    </div>
+
+                </h:form>
+
+            </h:panelGroup>
+
+        </h:panelGroup>
+
+    </ui:composition>
+
+</html>

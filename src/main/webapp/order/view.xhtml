@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/mainTemplate.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <f:metadata>
+        <f:viewParam name="id"
+                     value="#{orderViewController.order}"
+                     converter="orderConverter"/>
+    </f:metadata>
+
+
+    <ui:define name="content">
+
+        <h:form id="form">
+            
+            <h2>Заказ №#{orderViewController.order.number}</h2>
+
+            <p:messages id="messages" 
+                        showDetail="true"
+                        closable="true"
+                        style="margin-bottom: 1em;"/>
+
+            <p:tabView>
+
+                <p:tab title="Основные">
+
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-1">
+                            <p:outputLabel for="number" value="Номер"/>
+                        </div>
+                        <div class="ui-g-12 ui-md-8">
+                            <p:inputText id="number" value="#{orderViewController.order.number}"/>
+                        </div>
+                    </div>
+
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-1">
+                            <p:outputLabel for="client" value="Клиент"/>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <p:inputText id="client" value="#{clientHelper.get(orderViewController.order.clientId).code}" readonly="true"/>
+                        </div>
+                    </div>
+
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-1">
+                            <p:outputLabel for="amount" value="Сумма"/>
+                        </div>
+                        <div class="ui-g-12 ui-md-8">
+                            <p:inputNumber id="amount" 
+                                           value="#{orderViewController.order.amount}" 
+                                           decimalPlaces="0"
+                                           symbol="р."
+                                           symbolPosition="suffix"/>
+                        </div>
+                    </div>
+
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-1">
+                            <p:outputLabel for="dueTime" value="Срок исполнения"/>
+                        </div>
+                        <div class="ui-g-12 ui-md-8">
+                            <p:calendar id="dueTime" value="#{orderViewController.order.dueTime}" 
+                                        pattern="dd.MM.yyyy HH:mm" 
+                                        showOn="button"/>
+                        </div>
+                    </div>
+
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-1">
+                            <p:outputLabel for="status" value="Статус"/>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <p:selectOneMenu id="status" value="#{orderViewController.order.status}" style="width:225px">
+                                <f:selectItem itemLabel="Черновик" itemValue="Черновик" />
+                                <f:selectItem itemLabel="Новый" itemValue="Новый" />
+                                <f:selectItem itemLabel="Исполняется" itemValue="Исполняется" />
+                                <f:selectItem itemLabel="Приостановлен" itemValue="Приостановлен" />
+                                <f:selectItem itemLabel="Готов" itemValue="Готов" />
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                </p:tab>
+
+
+                <p:tab title="Описание">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-8">
+                            <p:textEditor id="note" value="#{orderViewController.order.note}" style="background-color: #ffffff;"/>
+                        </div>
+                    </div>
+                </p:tab>
+
+
+                <p:tab title="Служебные">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-2">
+                            <p:outputLabel for="id" value="Идентификатор"/>
+                        </div>
+                        <div class="ui-g-12 ui-md-8">
+                            <p:inputText id="id" value="#{orderViewController.order.id}" readonly="true"/>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-2">
+                            <p:outputLabel for="createTime" value="Создан"/>
+                        </div>
+                        <div class="ui-g-12 ui-md-8">
+                            <p:inputText id="createTime" value="#{orderViewController.order.createTime}" readonly="true">
+                                <f:convertDateTime pattern="dd.MM.yyyy hh:mm" />
+                            </p:inputText>
+                        </div>
+                    </div>
+                </p:tab>
+
+            </p:tabView>
+
+            <h:panelGroup layout="block" style="margin-top: 1em;">
+                <p:commandButton value="Сохранить" actionListener="#{orderViewController.save()}"
+                                 update="@form"/>
+            </h:panelGroup>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

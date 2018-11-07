@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/mainTemplate.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <f:metadata>
+        <f:viewParam name="id"
+                     value="#{clientViewController.client}"
+                     converter="clientConverter"/>
+    </f:metadata>
+
+
+    <ui:define name="content">
+
+        <h:form id="form">
+
+            <h2>Клиент №#{clientViewController.client.id}</h2>
+
+            <p:messages id="messages" 
+                        showDetail="true"
+                        closable="true"
+                        style="margin-bottom: 1em;"/>
+
+            <p:tabView>
+
+                <p:tab title="Основные">
+
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-1">
+                            <p:outputLabel for="code" value="Код"/>
+                        </div>
+                        <div class="ui-g-12 ui-md-8">
+                            <p:inputText id="code" value="#{clientViewController.client.code}" 
+                                         maxlength="20"/>
+                        </div>
+                    </div>
+
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-1">
+                            <p:outputLabel for="name" value="Название"/>
+                        </div>
+                        <div class="ui-g-12 ui-md-8">
+                            <p:inputText id="name" value="#{clientViewController.client.name}" 
+                                         size="100" 
+                                         maxlength="100"/>
+                        </div>
+                    </div>
+
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-1">
+                            <p:outputLabel for="status" value="Статус"/>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <p:selectOneMenu id="status" value="#{clientViewController.client.status}" style="width:225px">
+                                <f:selectItem itemLabel="Работает" itemValue="Работает" />
+                                <f:selectItem itemLabel="Потенциальный" itemValue="Потенциальный" />
+                                <f:selectItem itemLabel="Закрыт" itemValue="Закрыт" />
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                </p:tab>
+
+
+                <p:tab title="Примечание">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-8">
+                            <p:textEditor id="note" value="#{clientViewController.client.note}" 
+                                          height="300"
+                                          style="background-color: #ffffff;"/>
+                        </div>
+                    </div>
+                </p:tab>
+
+
+                <p:tab title="Служебные">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-2">
+                            <p:outputLabel for="id" value="Идентификатор"/>
+                        </div>
+                        <div class="ui-g-12 ui-md-8">
+                            <p:inputText id="id" value="#{clientViewController.client.id}" readonly="true"/>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-2">
+                            <p:outputLabel for="createTime" value="Создан"/>
+                        </div>
+                        <div class="ui-g-12 ui-md-8">
+                            <p:inputText id="createTime" value="#{clientViewController.client.createTime}" readonly="true">
+                                <f:convertDateTime pattern="dd.MM.yyyy hh:mm" />
+                            </p:inputText>
+                        </div>
+                    </div>
+                </p:tab>
+
+            </p:tabView>
+
+            <h:panelGroup layout="block" style="margin-top: 1em;">
+                <p:commandButton value="Сохранить"  actionListener="#{clientViewController.save()}"
+                                 update="@form"/>
+            </h:panelGroup>
+
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

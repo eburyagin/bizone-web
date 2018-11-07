@@ -1,0 +1,39 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 02.12.2017, 20:08:54
+    Author     : udgin
+*/
+
+.ui-selectonemenu .ui-selectonemenu-trigger{
+    width:35px !important;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger .ui-icon {
+    margin-top: 7px !important;
+    margin-left: 5px !important;
+}
+
+.ui-selectcheckboxmenu .ui-selectcheckboxmenu-trigger {
+    width: 35px !important;
+}
+
+.ui-selectcheckboxmenu .ui-selectcheckboxmenu-trigger .ui-icon {
+    margin-top: 7px !important;
+    margin-left: 5px !important;
+}
+
+.ui-messages-info-summary, .ui-messages-warn-summary, .ui-messages-error-summary, .ui-messages-fatal-summary, .ui-message-info-summary, .ui-message-warn-summary, .ui-message-error-summary, .ui-message-fatal-summary {
+    margin-left: 10px !important;
+    display: block !important;
+}
+
+.ui-messages-info-detail, .ui-messages-warn-detail, .ui-messages-error-detail, .ui-messages-fatal-detail, .ui-message-info-detail, .ui-message-warn-detail, .ui-message-error-detail, .ui-message-fatal-detail {
+    margin-left: 10px !important;
+    display: block !important;
+    margin-top: 5px !important;
+    margin-bottom: 10px !important;
+}

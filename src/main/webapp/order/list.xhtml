@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/mainTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+
+        <h:form id="form">
+
+            <h2>Заказы</h2>
+            
+            <p:messages id="messages" 
+                        showDetail="true"
+                        closable="true"
+                        style="margin-bottom: 1em;"/>
+
+            <p:toolbar>
+                <f:facet name="left">
+                    <p:button value="Создать" icon="fa fa-plus" 
+                              outcome="/order/add" />
+                </f:facet>
+
+                <f:facet name="right">
+                    <p:menuButton value="Действия">
+                        <p:menuitem value="Save" />
+                        <p:menuitem value="Update"/>
+                        <p:menuitem value="Delete"/>
+                        <p:menuitem value="Homepage"/>
+                    </p:menuButton>
+                </f:facet>
+
+            </p:toolbar>                    
+
+            <p:dataTable var="order" widgetVar="orderList" 
+                         value="#{orderListController.orderList}"
+                         selection="#{orderListController.selectedOrderList}" 
+                         rowKey="#{order.id}" 
+                         style="margin-bottom:0"
+                         paginator="true"
+                         rows="15"
+                         multiViewState="true">
+
+                <p:column selectionMode="multiple" style="text-align:center" width="35"/>
+
+                <p:column headerText="Номер" 
+                          filterBy="#{order.number}" 
+                          filterMatchMode="contains"
+                          sortBy="#{order.number}"
+                          sortable="true">
+                    <h:outputText value="#{order.number}" />
+                </p:column>
+
+                <p:column headerText="Клиент"
+                          filterBy="#{clientHelper.get(order.clientId).code}"
+                          filterMatchMode="contains">
+                    <h:outputText value="#{clientHelper.get(order.clientId).code}" />
+                </p:column>
+
+                <p:column headerText="Сумма" 
+                          sortable="true"
+                          sortBy="#{order.amount}">
+
+                    <h:outputText value="#{order.amount}" 
+                                  style="float:right;">
+
+                        <f:convertNumber groupingUsed="true"
+                                         minFractionDigits="0"
+                                         type="number"/>
+                    </h:outputText>
+
+                </p:column>
+
+                <p:column filterBy="#{order.status}"
+                          filterMatchMode="in">
+
+                    <f:facet name="filter">
+                        <p:selectCheckboxMenu label="Статус" 
+                                              onchange="PF('orderList').filter()"
+                                              style="width:225px;"
+                                              panelStyle="width:225px;" 
+                                              scrollHeight="250">
+
+                            <f:selectItem itemLabel="Черновик" itemValue="Черновик" />
+                            <f:selectItem itemLabel="Новый" itemValue="Новый" />
+                            <f:selectItem itemLabel="Исполняется" itemValue="Исполняется" />
+                            <f:selectItem itemLabel="Приостановлен" itemValue="Приостановлен" />
+                            <f:selectItem itemLabel="Готов" itemValue="Готов" />
+
+                        </p:selectCheckboxMenu>
+                    </f:facet>
+
+                    <h:outputText value="#{order.status}" />
+                </p:column>
+
+                <p:column headerText="Срок"
+                          sortable="true"
+                          sortBy="#{order.dueTime}">
+                    <h:outputText value="#{order.dueTime}">
+                        <f:convertDateTime pattern="dd.MM.yyyy hh:mm" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column style="text-align: center" width="60">
+                    <p:button outcome="/order/view" icon="fa fa-search" title="Показать всю информацию о заказе">
+                        <f:param name="id" value="#{order.id}"/>
+                    </p:button>
+                </p:column>
+
+            </p:dataTable>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
